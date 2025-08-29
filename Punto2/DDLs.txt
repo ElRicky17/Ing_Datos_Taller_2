@@ -1,0 +1,54 @@
+CREATE TABLE dim_team (
+    team_id INT PRIMARY KEY,
+    team_name VARCHAR(100),
+    team_logo TEXT
+);
+
+CREATE TABLE dim_league (
+    league_id INT PRIMARY KEY,
+    league_name VARCHAR(100),
+    league_type VARCHAR(50),
+    season INT,
+    league_logo TEXT
+);
+
+CREATE TABLE dim_country (
+    country_id INT PRIMARY KEY,
+    country_name VARCHAR(100),
+    country_code VARCHAR(10),
+    country_flag TEXT
+);
+
+CREATE TABLE dim_date (
+    date_id SERIAL PRIMARY KEY,
+    full_date TIMESTAMP,
+    year INT,
+    month INT,
+    day INT,
+    week INT
+);
+
+CREATE TABLE dim_status (
+    status_id SERIAL PRIMARY KEY,
+    status_long VARCHAR(50),
+    status_short VARCHAR(10)
+);
+
+CREATE TABLE fact_game (
+    game_id INT PRIMARY KEY,
+    sport VARCHAR(50),
+    date_id INT REFERENCES dim_date(date_id),
+    league_id INT REFERENCES dim_league(league_id),
+    country_id INT REFERENCES dim_country(country_id),
+    status_id INT REFERENCES dim_status(status_id),
+    home_team_id INT REFERENCES dim_team(team_id),
+    away_team_id INT REFERENCES dim_team(team_id),
+    venue VARCHAR(150),
+    home_total INT,
+    away_total INT,
+    period1_home INT, period1_away INT,
+    period2_home INT, period2_away INT,
+    period3_home INT, period3_away INT,
+    period4_home INT, period4_away INT,
+    period5_home INT, period5_away INT
+);
